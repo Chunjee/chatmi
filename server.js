@@ -30,5 +30,4 @@ socket.on('message', function(message) {
   })
 });
 
-
 app.listen(5000);
