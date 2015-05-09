@@ -11,7 +11,7 @@ app.get('/', function(request, response) {
   response.sendFile(__dirname + '/index.html');
 });
 
-mongo.connect('mongodb://127.0.0.1/chat', function(err, db) {
+mongo.connect('mongodb://127.0.0.1/27017', function(err, db) {
   if(err) throw err;
 
   io.on('connection', function(socket) {
