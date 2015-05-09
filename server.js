@@ -16,7 +16,16 @@ mongo.connect('mongodb://127.0.0.1/chat', function(err, db) {
 
   io.on('connection', function(socket) {
 
-var col = db.collection('messages');
+    var col = db.collection('messages');
+    var sendStatus = function(str) {
+      socket.emit('status', str);
+    };
+
+    // Emit all messages
+    col.find().limit(100).sort({_id: 1}).toArray(function(error, result) {
+      if(error) throw error;
+      socket.emit('output', result);
+    });
 
     //Wait for input
     socket.on('input', function(data) {
@@ -25,30 +34,25 @@ var col = db.collection('messages');
       var whiteSpace = /^\s*$/;
 
       if (whiteSpace.test(name) || whiteSpace.test(message)) {
-        console.log('Invalid');
+        sendStatus('Name and message is required.');
       } else {
         col.insert({name: name, message: message}, function() {
-          console.log('Inserted');
+          // Emit latest message to ALL clients
+          io.emit('output', [data]);
+
+          sendStatus({
+            message: "Message sent",
+            clear: true
+          });
         });
       }
     });
   });
 });
 
-
-
-
-
-
-
-
-
-
-
 io.on('connection', function(socket) {
   console.log('Someone has connected!');
 });
-
 
 http.listen(app.get('port'), function() {
   console.log('Node app is running at localhost: ' + app.get('port'));
