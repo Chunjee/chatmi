@@ -7,13 +7,6 @@ input {
   font-weight: 500;
 }
 
-h1 {
-  text-align: center;
-  margin-bottom: 0;
-  padding-left: 10px;
-  color: #DE555B;
-}
-
 .chat {
   max-width: 400px;
   margin: 0 auto;
@@ -23,6 +16,23 @@ h1 {
 .chat textarea,
 .chat-name {
   border: 1px solid #BBB;
+}
+
+input {
+  background: white;
+  transition: background-color 0.2s ease;
+}
+
+input:focus { 
+  background-color: #17577E;
+  color: #BBB;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 0;
+  padding-left: 10px;
+  color: #DE555B;
 }
 
 .chat-messages {
