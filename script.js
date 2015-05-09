@@ -22,7 +22,7 @@
 
   // Try connection
   try {
-    var socket = io.connect('http://127.0.0.1:5000');
+    var socket = io.connect('http://127.0.0.1:80');
   } catch(e) {
     // Set status to warn user
   }

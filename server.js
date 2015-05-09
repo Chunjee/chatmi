@@ -5,7 +5,7 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
 app.use(express.static(__dirname + '/'));
-app.set('port', (process.env.PORT || 5000));
+app.set('port', (process.env.PORT || 80));
 
 app.get('/', function(request, response) {
   response.sendFile(__dirname + '/index.html');
