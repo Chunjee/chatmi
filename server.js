@@ -1,33 +1,56 @@
+var mongo = require('mongodb').MongoClient;
 var express = require('express');
-var jade = require('jade');
-var io = require('socket.io').listen(app);
-var app = express.createServer();
+var app = express();
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
 
-app.set('views', __dirname + '/views');
-app.set('view engine', 'jade');
-app.set('view options', {layour:false});
-app.configure(function() {
-  app.use(express.static(__dirname + '/public'));
-});
+app.use(express.static(__dirname + '/'));
+app.set('port', (process.env.PORT || 5000));
 
 app.get('/', function(request, response) {
-  res.render('home.jade');
+  response.sendFile(__dirname + '/index.html');
 });
 
-io.sockets.on('connection', function(socket) {
-  //our other events...
+mongo.connect('mongodb://127.0.0.1/chat', function(err, db) {
+  if(err) throw err;
+
+  io.on('connection', function(socket) {
+
+var col = db.collection('messages');
+
+    //Wait for input
+    socket.on('input', function(data) {
+      var name = data.name;
+      var message = data.message;
+      var whiteSpace = /^\s*$/;
+
+      if (whiteSpace.test(name) || whiteSpace.test(message)) {
+        console.log('Invalid');
+      } else {
+        col.insert({name: name, message: message}, function() {
+          console.log('Inserted');
+        });
+      }
+    });
+  });
 });
 
-socket.on('setPseudo', function(data) {
-  socket.set('pseudo', data);
+
+
+
+
+
+
+
+
+
+
+io.on('connection', function(socket) {
+  console.log('Someone has connected!');
 });
 
-socket.on('message', function(message) {
-  socket.get('pseudo', function(error, name) {
-  	var data = {'message':message, pseudo:name};
-  	socket.broadcast.emit('message', data);
-  	console.log("user " + name + " send this: " + message);
-  })
+
+http.listen(app.get('port'), function() {
+  console.log('Node app is running at localhost: ' + app.get('port'));
 });
 
-app.listen(5000);
