@@ -6,14 +6,15 @@
 </head>
 
 <body>
-  <h1>Chat with me... please...</h1>
-  <div class="chat">
-    <input type="text" class="chat-name" placeholder="Enter your name"/>
-    <div class="chat-messages"></div>
-    <textarea placeholder="Type your message"></textarea>
-    <div class="chat-status">Status: <span>Idle</span></div>
-  </div>
-
+  <div id='container'>
+    <div class="chat">
+      <h1>Let's Chat!</h1>
+      <input type="text" class="chat-name" placeholder="Enter your name"/>
+      <div class="chat-messages" id="scrollbox"></div>
+      <textarea placeholder="Type your message"></textarea>
+      <div class="chat-status">Status: <span>Idle</span></div>
+    </div>
+  </main>
   <script src="socket.io/socket.io.js"></script>
   <script src="script.js"></script>
 </body>
