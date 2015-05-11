@@ -39,9 +39,10 @@
 
           // Append
           messages.appendChild(message);
-          messages.insertBefore(message, messages.firstChild);
+          //messages.insertBefore(message, messages.firstChild);
         }
       }
+      updateScroll();
     });
 
     // Listen for a status
@@ -62,9 +63,24 @@
           name:name, 
           message: self.value
         });
-
         event.preventDefault();
       }
     });
   }
 })();
+
+// Check if browser is Chrome 42
+(function() {
+  var browser = String(navigator.userAgent);
+  var browserCheck = browser.indexOf('Chrome/42.0');
+  if (window.chrome && browserCheck > -1) {
+    document.getElementById("scrollbox").style.overflowY = "hidden";
+  }
+})();
+
+// Scroll to most recent message
+var updateScroll = function() {
+  var element = document.getElementById("scrollbox");
+  element.scrollTop = element.scrollHeight;
+};
+document.onload = updateScroll();
