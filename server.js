@@ -31,12 +31,13 @@ mongo.connect('mongodb://127.0.0.1/27017', function(err, db) {
     socket.on('input', function(data) {
       var name = data.name;
       var message = data.message;
+      var timeStamp = data.timeStamp;
       var whiteSpace = /^\s*$/;
 
       if (whiteSpace.test(name) || whiteSpace.test(message)) {
         sendStatus('Name and message is required.');
       } else {
-        col.insert({name: name, message: message}, function() {
+        col.insert({timeStamp: timeStamp, name: name, message: message}, function() {
           // Emit latest message to ALL clients
           io.emit('output', [data]);
 
