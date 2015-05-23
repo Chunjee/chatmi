@@ -34,13 +34,12 @@
       if (data.length) {
         // Loop through results
         for (var i = 0; i < data.length; i++) {
-          var message = document.createElement('div');
+          var message = document.createElement('p');
           message.setAttribute('class', 'chat-message');
-          message.textContent = data[i].name + ': ' + data[i].message;
+          message.innerHTML = '<span style="color:#888;">' + data[i].timeStamp + '</span><span style="color:#2C3E50; font-weight:bold;font-size:15px;"> ' + data[i].name + ':</span> ' + data[i].message;
 
           // Update messages
           messages.appendChild(message);
-          //messages.insertBefore(message, messages.firstChild);
         }
       }
       updateScroll();
@@ -60,9 +59,32 @@
       var name = chatName.value;
 
       if (event.which === 13 && event.shiftKey === false) {
+        var currentDate = new Date;
+
+        // Format timestamp to XX:XX, AM/PM
+        function hourSuffix() {
+          var currentHour = currentDate.getHours();
+          var currentMinute = currentDate.getMinutes();
+          if (currentHour > 12) {
+            currentHour = currentDate.getHours() - 12;
+          }
+          if (currentMinute < 10) {
+            currentMinute = "0" + currentMinute;
+          }
+          if (currentHour < 10) {
+            currentHour = "0" + currentHour;
+            return currentHour + ":" + currentMinute + "pm";
+          } else {
+            return currentHour + ":" + currentMinute + "am";
+          }
+        }
+
+        var timeStamp = hourSuffix();
         socket.emit('input', {
           name: name, 
-          message: self.value
+          message: self.value,
+          currentDate: currentDate,
+          timeStamp: timeStamp
         });
         event.preventDefault();
       }
