@@ -1,35 +1,31 @@
-@import url(http://fonts.googleapis.com/css?family=Source+Code+Pro:300,400,500);
+@import url(http://fonts.googleapis.com/css?family=Inconsolata:400,700);
 
 html,
 body,
 #container,
 .chat {
+  width: 100%;
   height: 100%;
+  overflow: hidden;
 }
 
 body,
 textarea,
 input {
-  font: 13px 'Source Code Pro', sans-serif;
+  font: 13px 'Inconsolata', sans-serif;
   font-weight: 500;
-  background-image: url('img/ub.jpg');
   margin: 0;
 }
 
 .chat {
-  max-width: 80%;
-  height: 70%;
+  width: calc(80% - 20px);
+  max-width: 760px;
+  height: 100%;
   margin: 0 auto;
 }
 
-.chat-messages,
-.chat textarea,
-.chat-name {
-  border: 1px solid #BBB;
-}
-
 input {
-  background: white;
+  background: #FFF;
   transition: background-color 0.3s ease;
 }
 
@@ -45,42 +41,43 @@ h1 {
   color: #DE555B;
 }
 
-h2 {
-  margin-left: 0;
-  margin-bottom: 7px;
-  color: #DE555B;
-}
-
 .chat-messages {
-  width: 100%;
-  height: 70%;
+  width: calc(100% - 15px);
+  height: calc(80% - 100px);
   overflow-y: scroll;
-  padding: 10px;
+  padding: 10px 10px 10px 0;
   background: rgba(255,255,255,.3);
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 .chat-message {
-  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
-.chat-message:first-of-type {
-  margin-top: 0px;
+.chat-message:last-of-type {
+  margin-bottom: 0px;
 }
 
 .chat-name {
-  width: 100%;
-  padding: 10px;
-  border-bottom: 0;
+  width: 60%;
+  padding: 10px 10px 10px 10px;
   margin: 0;
+  background: #DDD;
 }
 
 .chat textarea {
-  color: #444;
-  width: 100%;
+  width: 60%;
   padding: 10px;
   margin: 0;
-  border-top: 0;
-  background: #FFF;
+  background-color: #DDD;
+  color: #333;
+  transition: background-color 0.3s ease;
+}
+
+.chat textarea:focus { 
+  background-color: #17577E;
+  color: #BBB;
 }
 
 .chat-status {
@@ -90,4 +87,16 @@ h2 {
 .chat textarea,
 .chat-name {
   outline: none;
+  border: 0;
+}
+
+@media (max-width: 767px) {
+  .chat-name,
+  .chat textarea {
+    width: 100%;
+  }
+
+  .chat {
+    width: 90%;
+  }
 }

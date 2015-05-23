@@ -1,7 +1,8 @@
 (function() {
-  var getNode = function(s) {
-    return document.querySelector(s);
+  var getNode = function(element) {
+    return document.querySelector(element);
   };
+
   // Get required nodes
   var status = getNode('.chat-status span');
   var messages = getNode('.chat-messages');
@@ -37,7 +38,7 @@
           message.setAttribute('class', 'chat-message');
           message.textContent = data[i].name + ': ' + data[i].message;
 
-          // Append
+          // Update messages
           messages.appendChild(message);
           //messages.insertBefore(message, messages.firstChild);
         }
@@ -48,7 +49,7 @@
     // Listen for a status
     socket.on('status', function(data) {
       setStatus((typeof data === 'object') ? data.message : data);
-      if(data.clear === true) {
+      if (data.clear === true) {
         textArea.value = '';
       }
     });
@@ -60,21 +61,12 @@
 
       if (event.which === 13 && event.shiftKey === false) {
         socket.emit('input', {
-          name:name, 
+          name: name, 
           message: self.value
         });
         event.preventDefault();
       }
     });
-  }
-})();
-
-// Check if browser is Chrome 42
-(function() {
-  var browser = String(navigator.userAgent);
-  var browserCheck = browser.indexOf('Chrome/42.0');
-  if (window.chrome && browserCheck > -1) {
-    document.getElementById("scrollbox").style.overflowY = "hidden";
   }
 })();
 
