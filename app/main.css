@@ -41,6 +41,11 @@ h1 {
   color: #DE555B;
 }
 
+h1 a, h1 a:link, h1 a:visited {
+  text-decoration: none;
+  color: #DE555B;
+}
+
 .chat-messages {
   width: calc(100% - 15px);
   height: calc(80% - 100px);
@@ -71,6 +76,7 @@ h1 {
   background-color: #DDD;
   color: #333;
   transition: background-color 0.3s ease;
+  resize: none;
 }
 
 .chat textarea:focus { 
@@ -87,6 +93,20 @@ h1 {
   outline: none;
   border: 0;
 }
+
+.message-timestamp {
+  color: #888;
+}
+
+.message-name {
+  color:#2C3E50; 
+  font-weight:bold;
+  font-size:15px;
+}
+
+
+
+
 
 @media (max-width: 767px) {
   .chat-name,

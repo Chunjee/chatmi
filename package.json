@@ -6,9 +6,9 @@
   "dependencies": {
     "mongodb": "^2.0.31",
     "express": "^4.12.3",
-    "socket.io": "^1.3.5"
+    "socket.io": "^1.3.6",
+    "angular": "^1.4.3"
   },
-  "devDependencies": {},
   "scripts": {
     "test": "make test",
     "start": "node server.js"
@@ -25,5 +25,11 @@
   "bugs": {
     "url": "https://github.com/justinsrd/chatme/issues"
   },
-  "homepage": "https://github.com/justinsrd/chatme"
+  "homepage": "https://github.com/justinsrd/chatme",
+  "devDependencies": {
+    "angular-route": "^1.4.3",
+    "gulp": "^3.9.0",
+    "gulp-webpack": "^1.5.0",
+    "socket.io": "^1.3.6"
+  }
 }
