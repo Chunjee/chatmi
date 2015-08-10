@@ -7,4 +7,3 @@ var chatroomApp = angular.module('chatroomApp', ['ngRoute']);
 
 require('./chatrooms/chatrooms.js')(chatroomApp);
 require('./routes/router.js')(chatroomApp)
-

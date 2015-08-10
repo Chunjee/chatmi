@@ -4,29 +4,11 @@ var socket = io.connect('http://localhost:3000');
 
 module.exports = function(app) {
 
-  app.controller('indexController', ['$scope', '$location', function($scope, $location) {
-    $scope.welcomeMessage = 'Welcome to ChatMi!';
-    $scope.roomList = ['room1', 'room2', 'room3'];
-    $scope.getRooms = function() {
-      $scope.roomList.forEach(function(room) {
-        document.getElementById('list').innerHTML += '<a href="./#/' + room + '">' + room + '</a><br>';
-      });
-    };
-
-    $scope.$on("$locationChangeStart", function(event, next, current) { 
-      socket.disconnect();
-    });
-  }]);
-
   app.controller('chatroomController', ['$scope', '$routeParams', '$location', function($scope, $routeParams, $location) {
     $scope.roomname = $routeParams.room;
 
-    $scope.$on("$locationChangeStart", function(event, next, current) { 
-      socket.disconnect();
-    });
-
     $scope.loadChatroom = function() {
-      socket.connect()
+      socket.connect();
       socket.emit('roomLoad', $routeParams.room);
 
       (function() {
@@ -142,9 +124,11 @@ module.exports = function(app) {
         element.scrollTop = element.scrollHeight;
       };
       document.onload = updateScroll();
+    }; //end loadChatroom
 
+    $scope.$on("$locationChangeStart", function(event, next, current) { 
+      socket.disconnect();
+    });
 
-    }; //end load chatroom
   }]); //end controller
-
 }
