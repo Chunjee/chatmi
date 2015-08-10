@@ -9,7 +9,6 @@ var io = require('socket.io')(http);
 app.use(express.static(__dirname + '/build'));
 app.set('port', (process.env.PORT || 3000));
 
-/////////////////////////////////////////////////////////////////////////////////////////////
 
 mongo.connect('mongodb://127.0.0.1/chat', function(err, db) {
   if (err) {console.log(err);}
@@ -18,6 +17,16 @@ mongo.connect('mongodb://127.0.0.1/chat', function(err, db) {
 
   io.on('connection', function(socket) {
     console.log('Socket connected!\n');
+
+    socket.on('homeLoad', function() {
+      db.collection('rooms').find().toArray(function(error, res) {
+        io.emit('returnRoomList', res);
+      });
+    });
+
+    socket.on('saveNewRoomtoDB', function(newRoomName) {
+      db.collection('rooms').insert({name: newRoomName});
+    });
 
     socket.on('roomLoad', function(roomName) {
       var col = db.collection(roomName);
