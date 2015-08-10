@@ -1,60 +1,66 @@
-var mongo = require('mongodb').MongoClient;
+'use strict';
+
+var mongo = require('mongodb');
 var express = require('express');
 var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
-app.use(express.static(__dirname + '/'));
-app.set('port', (process.env.PORT || 80));
+app.use(express.static(__dirname + '/build'));
+app.set('port', (process.env.PORT || 3000));
 
-app.get('/', function(request, response) {
-  response.sendFile(__dirname + '/index.html');
-});
+/////////////////////////////////////////////////////////////////////////////////////////////
 
-mongo.connect('mongodb://127.0.0.1/27017', function(err, db) {
-  if(err) throw err;
+mongo.connect('mongodb://127.0.0.1/chat', function(err, db) {
+  if (err) {console.log(err);}
+  else {console.log('Successfully connected to MongoDB.....\n')}
+
 
   io.on('connection', function(socket) {
+    console.log('Socket connected!\n');
 
-    var col = db.collection('messages');
-    var sendStatus = function(str) {
-      socket.emit('status', str);
-    };
+    socket.on('roomLoad', function(roomName) {
+      var col = db.collection(roomName);
 
-    // Emit all messages
-    col.find().limit(100).sort({_id: 1}).toArray(function(error, result) {
-      if(error) throw error;
-      socket.emit('output', result);
-    });
+      var sendStatus = function(str) {
+        socket.emit('status', str);
+      };
 
-    //Wait for input
-    socket.on('input', function(data) {
-      var name = data.name;
-      var message = data.message;
-      var timeStamp = data.timeStamp;
-      var whiteSpace = /^\s*$/;
+      // Emit all messages
+      col.find().limit(100).sort({_id: 1}).toArray(function(err, res) {
+        if(err) throw err;
+        socket.emit('output', res);
+      });
 
-      if (whiteSpace.test(name) || whiteSpace.test(message)) {
-        sendStatus('Name and message is required.');
-      } else {
-        col.insert({timeStamp: timeStamp, name: name, message: message}, function() {
-          // Emit latest message to ALL clients
-          io.emit('output', [data]);
+      socket.on('input', function(newMessage) {
+        var whiteSpace = /^\s*$/;
 
-          sendStatus({
-            message: "Message sent",
-            clear: true
+        if (whiteSpace.test(newMessage.name) || whiteSpace.test(newMessage.message)) {
+          sendStatus('Name and message is required.');
+        } else {
+          col.insert(newMessage, function() {
+            // Emit latest message to ALL clients
+            io.emit('output', [newMessage]);
+
+            sendStatus({
+              message: "Message sent",
+              clear: true
+            });
           });
-        });
-      }
-    });
-  });
-});
+        }
+      });  //end input
 
-io.on('connection', function(socket) {
-  console.log('Someone has connected!');
-});
+      socket.on('disconnect', function () {
+        console.log('User disconnected!\n');
+      });
+
+    });  //end roomload
+    socket.on('disconnect', function () {
+      console.log('User disconnected!\n');
+    });
+  });  //end connection
+}); //end mongo
 
 http.listen(app.get('port'), function() {
-  console.log('Node app is running at localhost: ' + app.get('port') + '!');
+  console.log('\nServer is running on port ' + app.get('port') + '.....\n');
 });
