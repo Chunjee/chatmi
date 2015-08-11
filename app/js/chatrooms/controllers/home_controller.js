@@ -23,9 +23,13 @@ module.exports = function(app) {
 
     $scope.edit = false;
     $scope.saveNewRoom = function(newRoomName) {
-      socket.emit('saveNewRoomtoDB', newRoomName);
-      document.getElementById('list').innerHTML += '<a href="./#/'+newRoomName+'">'+newRoomName+'</a><br>';
-      $scope.edit = false;
+      if (/^[A-Za-z0-9\s]+$/.test(newRoomName)) {
+        socket.emit('saveNewRoomtoDB', newRoomName);
+        document.getElementById('list').innerHTML += '<a href="./#/'+newRoomName+'">'+newRoomName+'</a><br>';
+        $scope.edit = false;
+      } else {
+        alert('Please enter a valid room name with only letters, numbers, and spaces!');
+      }
     };
 
     $scope.cancelNewRoom = function() {
