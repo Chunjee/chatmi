@@ -7,6 +7,7 @@ module.exports = function(app) {
   app.controller('indexController', ['$scope', '$location', function($scope, $location) {
     
     $scope.welcomeMessage = 'Welcome to ChatMi!';
+    $scope.description = 'Please enter a chatroom below, or create a new one!';
     
     $scope.getRooms = function() {
       socket.connect();

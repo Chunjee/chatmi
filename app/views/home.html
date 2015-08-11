@@ -1,16 +1,15 @@
-<main data-ng-init="getRooms();">  
-  <h1>{{ welcomeMessage }}</h1>
+<main id="index-container" data-ng-init="getRooms();">  
+  <h1 id="index-title">{{ welcomeMessage }}</h1>
+  <h3 id="index-description">{{ description }}</h3>
 
   <div id="list">
   </div>
 
-
-  <button data-ng-click="edit=true;">Add New Room</button>
+  <button id="add-new-room" data-ng-click="edit=true;">Add New Room</button>
   
-  <form data-ng-if="edit===true">
+  <form id="new-room-form" data-ng-if="edit===true">
     <input data-ng-model="newRoomName">
     <button data-ng-click="saveNewRoom(newRoomName)">Save</button>
     <button data-ng-click="cancelNewRoom()">Cancel</button>
   </form>
-  
 </main>
