@@ -1,6 +1,6 @@
 'use strict';
 
-var socket = io.connect('http://localhost:3000');
+var socket = io.connect(process.env.SOCKET);
 
 module.exports = function(app) {
 
@@ -36,7 +36,7 @@ module.exports = function(app) {
 
         // Try connection
         try {
-          var socket = io.connect('localhost:3000');
+          var socket = io.connect(process.env.SOCKET);
         } catch(e) {
           console.log(e);
         }
