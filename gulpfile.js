@@ -23,5 +23,10 @@ gulp.task('copyCSS', function() {
     .pipe(gulp.dest('build/'));
 });
 
-gulp.task('build', ['webpack:dev', 'copyHTML', 'copyCSS']);
+gulp.task('copyIMG', function() {
+  return gulp.src('app/**/*.ico')
+    .pipe(gulp.dest('build/'));
+});
+
+gulp.task('build', ['webpack:dev', 'copyHTML', 'copyCSS', 'copyIMG']);
 gulp.task('default', ['build']);
