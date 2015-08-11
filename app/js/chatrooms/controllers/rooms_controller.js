@@ -56,7 +56,7 @@ module.exports = function(app) {
 
                 var messageName = document.createElement('span');
                 messageName.setAttribute('class', 'message-name');
-                messageName.textContent = ' ' + data[i].name + ' ';
+                messageName.textContent = data[i].name;
 
                 var messageContent = document.createElement('span');
                 messageContent.setAttribute('class', 'message-content');
