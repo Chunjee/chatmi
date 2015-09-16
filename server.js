@@ -14,9 +14,10 @@ mongo.connect('mongodb://127.0.0.1/chat', function(err, db) {
   if (err) {console.log(err);}
   else {console.log('Successfully connected to MongoDB.....\n')}
 
-
+  var online = 0;
   io.on('connection', function(socket) {
     console.log('Socket connected!\n');
+    online++;
 
     socket.on('homeLoad', function() {
       db.collection('rooms').find().toArray(function(error, res) {
@@ -58,14 +59,10 @@ mongo.connect('mongodb://127.0.0.1/chat', function(err, db) {
           });
         }
       });  //end input
-
-      socket.on('disconnect', function () {
-        console.log('User disconnected!\n');
-      });
-
     });  //end roomload
     socket.on('disconnect', function () {
       console.log('User disconnected!\n');
+      online--;
     });
   });  //end connection
 }); //end mongo
