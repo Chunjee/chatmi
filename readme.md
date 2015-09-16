@@ -4,6 +4,9 @@ ChatMi is a real-time multi-room chat application. The backend is built with Nod
 
 
 Instructions:
+
 1) Run `npm install` to install deps
+
 2) Run `gulp build` to compile resources
+
 3) Run server
