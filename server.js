@@ -22,6 +22,7 @@ mongo.connect('mongodb://127.0.0.1/chat', function(err, db) {
     socket.on('homeLoad', function() {
       db.collection('rooms').find().toArray(function(error, res) {
         io.emit('returnRoomList', res);
+        io.emit('numOnline', online);
       });
     });
 
@@ -63,6 +64,7 @@ mongo.connect('mongodb://127.0.0.1/chat', function(err, db) {
     socket.on('disconnect', function () {
       console.log('User disconnected!\n');
       online--;
+      io.emit('numOnline', online);
     });
   });  //end connection
 }); //end mongo

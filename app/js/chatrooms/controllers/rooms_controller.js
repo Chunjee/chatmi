@@ -19,7 +19,7 @@ module.exports = function(app) {
         // Get required nodes
         var status = getNode('.chat-status span');
         var messageDisplay = getNode('.chat-messages');
-        var textArea = getNode('.chat textarea');
+        var textArea = getNode('#room-container textarea');
         var chatName = getNode('.chat-name');
         
         var statusDefault = status.textContent;
@@ -45,7 +45,7 @@ module.exports = function(app) {
           // Listen for output
           socket.on('output', function(data) {
             if (data.length) {
-              // Loop through results
+              // Loop through room's messages, display them
               for (var i = 0; i < data.length; i++) {
                 var message = document.createElement('p');
                 message.setAttribute('class', 'chat-message');
@@ -120,13 +120,13 @@ module.exports = function(app) {
 
       // Scroll to most recent message
       var updateScroll = function() {
-        var element = document.getElementById("scrollbox");
+        var element = document.getElementById('scrollbox');
         element.scrollTop = element.scrollHeight;
       };
       document.onload = updateScroll();
     }; //end loadChatroom
 
-    $scope.$on("$locationChangeStart", function(event, next, current) { 
+    $scope.$on('$locationChangeStart', function(event, next, current) { 
       socket.disconnect();
     });
 

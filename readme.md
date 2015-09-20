@@ -7,6 +7,6 @@ Instructions:
 
 1) Run `npm install` to install deps
 
-2) Run `gulp build` to compile resources
+2) Run `gulp` to compile resources
 
 3) Run server

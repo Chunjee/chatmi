@@ -1,0 +1,103 @@
+#index-container {
+  display: block;
+  margin: 0 15%;
+  position: relative;
+
+  #index-title {
+    padding-top: 1rem;
+    font-size: 2rem;
+    letter-spacing: 1px;
+    font-weight: bold;
+
+    a {
+      text-decoration: none;
+      color: $primary-color;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+  
+  h3 {
+    font-size: 1rem;
+  }
+
+  #index-description {
+    padding: 1rem 0 0 0;
+    color: $secondary-color;
+  }
+
+  #index-online {
+    padding: 1rem 0 1rem 0;
+    color: #777;
+
+    span {
+      font-weight: bold;
+      color: #000;
+    }
+  }
+
+  #list {
+    .roomName {
+      display: block;
+      font-size: 1.2rem;
+      padding: .4rem 0;
+      color: $terciary-color;
+      font-weight: bold;
+      text-decoration: none;
+
+      &:hover {
+        color: $primary-color;
+        text-decoration: underline;
+      }
+    }
+  }
+
+  button {
+    background-color: $secondary-color;
+    color: #FFF;
+    border: 0;
+    padding: .5rem;
+    font-family: $main-font;
+    font-weight: bold;
+    transition: background-color .2s ease;
+
+    &:hover {
+      background-color: $primary-color;
+    }
+    &:active {
+      background-color: #0A83B3;
+    }
+  }
+
+  button#add-new-room {
+    margin-top: 1rem;
+  }
+
+  form#new-room-form {
+    margin-top: 1rem;
+
+    input {
+      font-family: $main-font;
+      font-weight: bold;
+      color: #444;
+      background-color: #D7D9DA;
+      border: 0;
+      padding: .5rem;
+      transition: background-color .2s ease;
+
+      &:focus {
+        background-color: $terciary-color;
+        color: #FFF;
+      }
+    }
+  }
+
+}
+
+@media (max-width: 767px) {
+  #index-container {
+    margin: 0 5%;
+  }
+}
