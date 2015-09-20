@@ -1,0 +1,16 @@
+<main id="index-container" data-ng-init="getRooms();">  
+  <h1 id="index-title"><a href="/#/">{{ welcomeMessage }}</a></h1>
+  <h3 id="index-description">{{ description }}</h3>
+  <h3 id="index-online">Number of people online: <span>{{ numOnline }}</span></h3>
+
+  <div id="list"></div>
+
+  <form id="new-room-form" data-ng-if="edit===true">
+    <input data-ng-model="newRoomName" placeholder="Enter room name">
+    <button data-ng-click="saveNewRoom(newRoomName)">Save</button>
+    <button data-ng-click="cancelNewRoom()">Cancel</button>
+  </form>
+
+  <button id="add-new-room" data-ng-click="edit=true;">Add New Room</button>
+
+</main>

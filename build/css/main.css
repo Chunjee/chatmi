@@ -1,0 +1,193 @@
+/*----------MEYER RESET----------*/
+@import url(https://fonts.googleapis.com/css?family=Inconsolata:400,700);
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline; }
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block; }
+
+body {
+  line-height: 1; }
+
+ol, ul {
+  list-style: none; }
+
+blockquote, q {
+  quotes: none; }
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: '';
+  content: none; }
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0; }
+
+html,
+body {
+  box-sizing: border-box;
+  font-family: "Inconsolata";
+  font-size: 1em;
+  width: 100%;
+  height: 100%;
+  overflow: hidden; }
+
+#index-container {
+  display: block;
+  margin: 0 15%;
+  position: relative; }
+  #index-container #index-title {
+    padding-top: 1rem;
+    font-size: 2rem;
+    letter-spacing: 1px;
+    font-weight: bold; }
+    #index-container #index-title a {
+      text-decoration: none;
+      color: #0D9FDD; }
+      #index-container #index-title a:hover {
+        text-decoration: underline; }
+  #index-container h3 {
+    font-size: 1rem; }
+  #index-container #index-description {
+    padding: 1rem 0 0 0;
+    color: #E74C3C; }
+  #index-container #index-online {
+    padding: 1rem 0 1rem 0;
+    color: #777; }
+    #index-container #index-online span {
+      font-weight: bold;
+      color: #000; }
+  #index-container #list .roomName {
+    display: block;
+    font-size: 1.2rem;
+    padding: .4rem 0;
+    color: #2C3E50;
+    font-weight: bold;
+    text-decoration: none; }
+    #index-container #list .roomName:hover {
+      color: #0D9FDD;
+      text-decoration: underline; }
+  #index-container button {
+    background-color: #E74C3C;
+    color: #FFF;
+    border: 0;
+    padding: .5rem;
+    font-family: "Inconsolata";
+    font-weight: bold;
+    transition: background-color 0.2s ease; }
+    #index-container button:hover {
+      background-color: #0D9FDD; }
+    #index-container button:active {
+      background-color: #0A83B3; }
+  #index-container button#add-new-room {
+    margin-top: 1rem; }
+  #index-container form#new-room-form {
+    margin-top: 1rem; }
+    #index-container form#new-room-form input {
+      font-family: "Inconsolata";
+      font-weight: bold;
+      color: #444;
+      background-color: #D7D9DA;
+      border: 0;
+      padding: .5rem;
+      transition: background-color 0.2s ease; }
+      #index-container form#new-room-form input:focus {
+        background-color: #2C3E50;
+        color: #FFF; }
+
+@media (max-width: 767px) {
+  #index-container {
+    margin: 0 5%; } }
+
+#room-container {
+  display: block;
+  margin: 0 15%;
+  position: relative;
+  height: 100%; }
+  #room-container h1 {
+    padding: 1rem 0 0.7rem 0;
+    font-size: 2rem;
+    letter-spacing: 1px;
+    text-decoration: none;
+    font-weight: bold;
+    color: #0D9FDD; }
+    #room-container h1 a {
+      color: #0D9FDD;
+      text-decoration: none; }
+      #room-container h1 a:hover {
+        text-decoration: underline; }
+    #room-container h1 span a {
+      color: #E74C3C;
+      text-decoration: none; }
+      #room-container h1 span a:hover {
+        text-decoration: underline; }
+  #room-container input {
+    font-family: "Inconsolata";
+    font-weight: bold;
+    color: #333;
+    width: 100%;
+    background-color: #D7D9DA;
+    border: 0;
+    padding: .5rem;
+    box-sizing: border-box;
+    transition: background-color 0.2s ease; }
+    #room-container input:focus {
+      background-color: #2C3E50;
+      color: #FFF; }
+  #room-container #scrollbox {
+    overflow-y: scroll;
+    height: calc(80% - 100px); }
+    #room-container #scrollbox .chat-message {
+      font-size: 1.2rem;
+      padding-top: .5rem; }
+      #room-container #scrollbox .chat-message .message-timestamp {
+        color: #888; }
+      #room-container #scrollbox .chat-message .message-name {
+        color: #E74C3C;
+        font-weight: bold; }
+      #room-container #scrollbox .chat-message .message-name::before {
+        content: ' '; }
+      #room-container #scrollbox .chat-message .message-name::after {
+        content: ': '; }
+      #room-container #scrollbox .chat-message .message-content {
+        color: #2C3E50; }
+      #room-container #scrollbox .chat-message:last-of-type {
+        padding-bottom: .5rem; }
+  #room-container textarea {
+    background-color: #D7D9DA;
+    color: #2C3E50;
+    resize: none;
+    border: 0;
+    padding: .5rem;
+    width: 100%;
+    font-family: "Inconsolata";
+    font-size: 1.2rem;
+    outline: none;
+    box-sizing: border-box; }
+  #room-container .chat-status {
+    font-weight: normal;
+    color: #0D9FDD; }
+
+@media (max-width: 767px) {
+  #room-container {
+    margin: 0 5%; } }
