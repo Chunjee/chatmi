@@ -1,6 +1,6 @@
 'use strict';
 
-var socket = io.connect(process.env.SOCKET);
+var socket = io(process.env.SOCKET);
 
 module.exports = function(app) {
 
@@ -23,10 +23,10 @@ module.exports = function(app) {
         var chatName = getNode('.chat-name');
         
         var statusDefault = status.textContent;
-        var setStatus = function(s) {
-          status.textContent = s;
+        var setStatus = function(str) {
+          status.textContent = str;
 
-          if (s !== statusDefault) {
+          if (str !== statusDefault) {
             var delay = setTimeout(function() {
               setStatus(statusDefault);
               clearInterval(delay);
@@ -34,17 +34,10 @@ module.exports = function(app) {
           }
         };
 
-        // Try connection
-        try {
-          var socket = io.connect(process.env.SOCKET);
-        } catch(e) {
-          console.log(e);
-        }
-
-        if (socket !== undefined) {
+        if (socket) {
           // Listen for output
-          socket.on('output', function(data) {
-            if (data.length) {
+          socket.on('output', function(data, thisRoom) {
+            if (data.length && thisRoom === $routeParams.room) {
               // Loop through room's messages, display them
               for (var i = 0; i < data.length; i++) {
                 var message = document.createElement('p');
@@ -82,7 +75,7 @@ module.exports = function(app) {
 
           // Listen for keydown
           textArea.addEventListener('keydown', function(event) {
-            var self = this;
+            var content = this.value;
             var name = chatName.value;
 
             if (event.which === 13 && event.shiftKey === false) {
@@ -109,7 +102,7 @@ module.exports = function(app) {
               var timeStamp = hourSuffix();
               socket.emit('input', {
                 name: name, 
-                message: self.value,
+                message: content,
                 timeStamp: timeStamp
               });
               event.preventDefault();
@@ -125,10 +118,6 @@ module.exports = function(app) {
       };
       document.onload = updateScroll();
     }; //end loadChatroom
-
-    $scope.$on('$locationChangeStart', function(event, next, current) { 
-      socket.disconnect();
-    });
 
   }]); //end controller
 }
