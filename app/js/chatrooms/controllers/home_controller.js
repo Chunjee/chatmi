@@ -1,6 +1,6 @@
 'use strict';
 
-var socket = io.connect('http://localhost:3000');
+var socket = io(process.env.SOCKET);
 
 module.exports = function(app) {
   
@@ -37,7 +37,6 @@ module.exports = function(app) {
       });
     };
 
-
     // Validates new chatroom name, saves new chatroom to DB, displays it
     $scope.edit = false;
     $scope.saveNewRoom = function(newRoomName) {
@@ -63,10 +62,6 @@ module.exports = function(app) {
       $scope.newRoomName = null;
       $scope.edit = false;
     };
-    
-    // Disconnects current socket when leaving a room
-    $scope.$on("$locationChangeStart", function(event, next, current) { 
-      socket.disconnect();
-    });
+
   }]);
 }

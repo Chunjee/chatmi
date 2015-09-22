@@ -11,13 +11,12 @@ app.set('port', (process.env.PORT || 3000));
 
 
 mongo.connect('mongodb://127.0.0.1/chat', function(err, db) {
-  if (err) {console.log(err);}
-  else {console.log('Successfully connected to MongoDB.....\n')}
+  err ? console.log(err) : console.log('Successfully connected to MongoDB.....\n');
 
   var online = 0;
   io.on('connection', function(socket) {
-    console.log('Socket connected!\n');
     online++;
+    console.log('Socket connected! ' + online + ' online!\n');
 
     socket.on('homeLoad', function() {
       db.collection('rooms').find().toArray(function(error, res) {
@@ -40,7 +39,7 @@ mongo.connect('mongodb://127.0.0.1/chat', function(err, db) {
       // Emit all messages
       col.find().limit(100).sort({_id: 1}).toArray(function(err, res) {
         if(err) throw err;
-        socket.emit('output', res);
+        socket.emit('output', res, roomName);
       });
 
       socket.on('input', function(newMessage) {
@@ -51,7 +50,7 @@ mongo.connect('mongodb://127.0.0.1/chat', function(err, db) {
         } else {
           col.insert(newMessage, function() {
             // Emit latest message to ALL clients
-            io.emit('output', [newMessage]);
+            io.emit('output', [newMessage], roomName);
 
             sendStatus({
               message: "Message sent",
@@ -62,8 +61,8 @@ mongo.connect('mongodb://127.0.0.1/chat', function(err, db) {
       });  //end input
     });  //end roomload
     socket.on('disconnect', function () {
-      console.log('User disconnected!\n');
       online--;
+      console.log('User disconnected! ' + online + ' online!\n');
       io.emit('numOnline', online);
     });
   });  //end connection
