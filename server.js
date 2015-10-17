@@ -7,7 +7,7 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
 app.use(express.static(__dirname + '/build'));
-app.set('port', (process.env.PORT || 3000));
+var port = process.env.PORT || 3000;
 
 
 mongo.connect('mongodb://127.0.0.1/chat', function(err, db) {
@@ -69,6 +69,6 @@ mongo.connect('mongodb://127.0.0.1/chat', function(err, db) {
   });  //end connection
 }); //end mongo
 
-http.listen(app.get('port'), function() {
-  console.log('\nServer is running on port ' + app.get('port') + '.....\n');
+http.listen(port, function() {
+  console.log('\nServer is running on port ' + port + '.....\n');
 });
