@@ -1,9 +1,7 @@
 'use strict';
 
-var socket = io(process.env.SOCKET);
-
 module.exports = function(app) {
-  
+  var socket = io();
   app.controller('indexController', ['$scope', '$location', function($scope, $location) {
     
     $scope.welcomeMessage = 'Welcome to ChatMi!';
@@ -18,7 +16,7 @@ module.exports = function(app) {
     // Returns list of chatrooms
     $scope.getRooms = function() {
       $scope.rooms = [];
-      socket.connect();
+      socket.connect(process.env.SOCKET, {forceNew: true});
       socket.emit('homeLoad');
       socket.on('returnRoomList', function(data) {
         var roomList = document.getElementById('list');
@@ -62,6 +60,8 @@ module.exports = function(app) {
       $scope.newRoomName = null;
       $scope.edit = false;
     };
-
+    $scope.$on('$locationChangeStart', function(event, next, current) { 
+      socket.io.close();
+    });
   }]);
 }
