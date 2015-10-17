@@ -19,7 +19,8 @@ mongo.connect('mongodb://127.0.0.1/chat', function(err, db) {
     console.log('Socket connected! ' + online + ' online!\n');
 
     socket.on('homeLoad', function() {
-      db.collection('rooms').find().toArray(function(error, res) {
+      db.collection('rooms').find().toArray(function(err, res) {
+        if(err) throw err;
         io.emit('returnRoomList', res);
         io.emit('numOnline', online);
       });

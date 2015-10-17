@@ -1,14 +1,14 @@
 'use strict';
 
-var socket = io(process.env.SOCKET);
-
 module.exports = function(app) {
 
   app.controller('chatroomController', ['$scope', '$routeParams', '$location', function($scope, $routeParams, $location) {
+    var socket = io();
+
     $scope.roomname = $routeParams.room;
 
     $scope.loadChatroom = function() {
-      socket.connect();
+      socket.connect(process.env.SOCKET, {forceNew: true});
       socket.emit('roomLoad', $routeParams.room);
 
       (function() {
@@ -79,10 +79,9 @@ module.exports = function(app) {
             var name = chatName.value;
 
             if (event.which === 13 && event.shiftKey === false) {
-              var currentDate = new Date;
-
               // Format timestamp to XX:XX, AM/PM
               function hourSuffix() {
+                var currentDate = new Date;
                 var currentHour = currentDate.getHours();
                 var currentMinute = currentDate.getMinutes();
                 if (currentHour > 12) {
@@ -118,6 +117,10 @@ module.exports = function(app) {
       };
       document.onload = updateScroll();
     }; //end loadChatroom
+
+    $scope.$on('$locationChangeStart', function(event, next, current) { 
+      socket.io.close();
+    });
 
   }]); //end controller
 }
