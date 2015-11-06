@@ -32,13 +32,13 @@
     padding: 1rem 0 1rem 0;
     color: #777;
 
-    span {
+    #num-online {
       font-weight: bold;
       color: #000;
     }
   }
 
-  #list {
+  #chatroom-list {
     .roomName {
       display: block;
       font-size: 1.2rem;
@@ -75,7 +75,12 @@
     margin-top: 1rem;
   }
 
-  form#new-room-form {
+  button#save-new-room,
+  button#cancel-new-room {
+    margin-left: .5em;
+  }
+
+  div#new-room-form {
     margin-top: 1rem;
 
     input {

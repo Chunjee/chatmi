@@ -1,0 +1,17 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title= 'ChatMi | ' + roomName
+    link(rel="stylesheet", type="text/css", href="css/main.css")
+
+  body
+    div#chatroom-container
+
+    script.
+      var roomName = '#{roomName}';
+    script(src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js")
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.7/socket.io.min.js")
+    script(src="js/bundle_chatroom.js")
+  

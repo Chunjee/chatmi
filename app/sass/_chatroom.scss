@@ -1,4 +1,4 @@
-#room-container {
+#chatroom-container {
   display: block;
   margin: 0 15%;
   position: relative;
@@ -50,9 +50,9 @@
     }
   }
 
-  #scrollbox {
-    overflow-y: scroll;
+  #chat-message-display {
     height: calc(80% - 100px);
+    overflow-y: scroll;
 
     .chat-message {
       font-size: 1.2rem;
@@ -98,7 +98,7 @@
     box-sizing: border-box;
   }
 
-  .chat-status {
+  #chat-status {
     font-weight: normal;
     color: $primary-color;
   }
@@ -112,4 +112,9 @@
   textarea {
     font-size: .8rem !important;
   }
+}
+
+#app-container {
+  height: 100%;
+  width: 100%;
 }

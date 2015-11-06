@@ -1,0 +1,28 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title ChatMi
+    link(rel="stylesheet", type="text/css", href="css/main.css")
+
+  body
+    main#index-container
+      h1#index-title
+        a(href="/") Welcome to ChatMi!
+      h3#index-description Join a chatroom below, or create a new one!
+      h3#index-online Number of people online: 
+        span#num-online 
+
+      section#chatroom-list 
+      
+      div#new-room-form.hidden
+        input(placeholder="Enter room name")#new-room-input
+        button#save-new-room Save
+        button#cancel-new-room Cancel
+
+      button#add-new-room Add New Room
+    
+    script(src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js")
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.7/socket.io.min.js")
+    script(src="js/bundle_index.js")

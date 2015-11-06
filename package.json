@@ -4,10 +4,24 @@
   "description": "Simple node/socket.io chat app.",
   "main": "server.js",
   "dependencies": {
-    "mongodb": "^2.0.31",
-    "express": "^4.12.3",
-    "socket.io": "^1.3.6",
-    "angular": "^1.4.3"
+    "body-parser": "^1.14.1",
+    "browserify": "^12.0.1",
+    "express": "^4.13.3",
+    "gulp": "^3.9.0",
+    "gulp-concat": "^2.6.0",
+    "gulp-react": "^3.1.0",
+    "gulp-sass": "^2.1.0",
+    "gulp-uglify": "^1.4.2",
+    "jade": "^1.11.0",
+    "mongodb": "^2.0.47",
+    "mongoose": "^4.2.3",
+    "react": "^0.14.1",
+    "react-dom": "^0.14.1",
+    "reactify": "^1.1.1",
+    "socket.io": "^1.3.7",
+    "superagent": "^1.4.0",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^1.1.0"
   },
   "scripts": {
     "test": "make test",
@@ -15,7 +29,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/justinsrd/chatme.git"
+    "url": "https://github.com/justinsrd/chatmi.git"
   },
   "keywords": [
     "chat"
@@ -23,15 +37,8 @@
   "author": "Justin",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/justinsrd/chatme/issues"
+    "url": "https://github.com/justinsrd/chatmi/issues"
   },
   "homepage": "https://github.com/justinsrd/chatme",
-  "devDependencies": {
-    "angular-route": "^1.4.3",
-    "gulp": "^3.9.0",
-    "gulp-sass": "^2.0.4",
-    "gulp-webpack": "^1.5.0",
-    "sass": "^0.5.0",
-    "socket.io": "^1.3.6"
-  }
+  "devDependencies": {}
 }

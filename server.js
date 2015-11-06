@@ -1,73 +1,94 @@
 'use strict';
 
-var mongo = require('mongodb');
 var express = require('express');
 var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
-
-app.use(express.static(__dirname + '/build'));
 var port = process.env.PORT || 3000;
+var mongo = require('mongodb');
+var mongoURI = process.env.MONGOURI || 'mongodb://127.0.0.1/chat';
+
+app.set('view engine', 'jade');
+app.use(express.static(__dirname + '/build'));
+
+var chatroomRoutes = express.Router();
+require('./routes/router.js')(chatroomRoutes);
+app.use('/api', chatroomRoutes);
 
 
-mongo.connect('mongodb://127.0.0.1/chat', function(err, db) {
-  err ? console.log(err) : console.log('Successfully connected to MongoDB.....\n');
+// Client routes
+app.get('/', function(req, res) {
+  res.render('index');
+});
 
-  var online = 0;
-  io.on('connection', function(socket) {
-    online++;
-    console.log('Socket connected! ' + online + ' online!\n');
+app.get('/:room', function(req, res) {
+  mongo.connect(mongoURI, function(err, db) {
+    db.collection('rooms').find({name: req.params.room}).toArray(function(error, result) {
+      if (result.length) {
+        res.render('chatroom', {roomName: req.params.room});
+      } else {
+        res.send('Error 404 - page not found.');
+      }
+    });
+  });
+});
 
-    socket.on('homeLoad', function() {
-      db.collection('rooms').find().toArray(function(err, res) {
-        if(err) throw err;
-        io.emit('returnRoomList', res);
-        io.emit('numOnline', online);
+app.get('/*', function(req, res) {
+  res.send('Error 404 - page not found.');
+});
+
+// Init database connection
+var myDB;
+mongo.connect(mongoURI, function(err, db) {
+  if (err) {
+    console.log(err);
+  } else {
+    console.log('Successfully connected to MongoDB.....\n');
+  }
+  myDB = db;
+});
+
+// Socket definitions
+var online = 0;
+io.on('connection', function(socket) {
+  online++;
+  console.log('Socket connected! ' + online + ' online!\n');
+
+  socket.on('validateNewRoom', function(newRoomName) {
+    myDB.collection('rooms').find({name: newRoomName}).toArray(function(error, result) {
+      if (result.length) {
+        socket.emit('newRoomAlreadyExists');
+      } else {
+        myDB.collection('rooms').insert({name: newRoomName});
+        socket.emit('newRoomOk')
+      }
+    });
+  });
+
+  socket.on('newMessage', function(newMessage, roomName) {
+    var whiteSpace = /^\s*$/;
+    if (whiteSpace.test(newMessage.name) || whiteSpace.test(newMessage.message)) {
+      socket.emit('status', {msg: 'Name and message is required.'});
+    } else {
+      myDB.collection(roomName).insert(newMessage, function() {
+        //emit latest message to ALL clients (client decides to render or not)
+        io.emit('newMessageToRender', newMessage, roomName);
+        socket.emit('status', {message: "Message sent", clear: true});
       });
-    });
+    }
+  });
 
-    socket.on('saveNewRoomtoDB', function(newRoomName) {
-      db.collection('rooms').insert({name: newRoomName});
-    });
+  socket.on('indexLoad', function() {
+    io.emit('numOnline', online);
+  });
+  
+  socket.on('disconnect', function () {
+    online--;
+    console.log('User disconnected! ' + online + ' online!\n');
+    io.emit('numOnline', online);
+  });
+});
 
-    socket.on('roomLoad', function(roomName) {
-      var col = db.collection(roomName);
-
-      var sendStatus = function(str) {
-        socket.emit('status', str);
-      };
-
-      // Emit all messages
-      col.find().limit(100).sort({_id: 1}).toArray(function(err, res) {
-        if(err) throw err;
-        socket.emit('output', res, roomName);
-      });
-
-      socket.on('input', function(newMessage) {
-        var whiteSpace = /^\s*$/;
-
-        if (whiteSpace.test(newMessage.name) || whiteSpace.test(newMessage.message)) {
-          sendStatus('Name and message is required.');
-        } else {
-          col.insert(newMessage, function() {
-            // Emit latest message to ALL clients
-            io.emit('output', [newMessage], roomName);
-
-            sendStatus({
-              message: "Message sent",
-              clear: true
-            });
-          });
-        }
-      });  //end input
-    });  //end roomload
-    socket.on('disconnect', function () {
-      online--;
-      console.log('User disconnected! ' + online + ' online!\n');
-      io.emit('numOnline', online);
-    });
-  });  //end connection
-}); //end mongo
 
 http.listen(port, function() {
   console.log('\nServer is running on port ' + port + '.....\n');
